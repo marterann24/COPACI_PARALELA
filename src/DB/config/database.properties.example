@@ -1,0 +1,8 @@
+# Configuración PostgreSQL 
+# Copiar este archivo como database.properties y completa con tus datos
+
+database.server=localhost
+database.port=5432
+database.name=nombre_bd
+database.username=tu_usuario
+database.password=tu_password

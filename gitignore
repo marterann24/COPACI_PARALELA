@@ -1,0 +1,48 @@
+# Archivos de NetBeans
+/nbproject/private/
+/nbproject/project.properties
+/nbproject/project.xml
+/build/
+/dist/
+/.nb-gradle/
+
+# Archivos compilados
+*.class
+*.jar
+*.war
+*.ear
+*.classpath
+*.project
+
+# Logs
+*.log
+logs/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración local - CORREGIDO
+/src/DB/config/database.properties
+*.properties
+!*.properties.example
+
+# Base de datos local (si usas alguna)
+*.db
+*.sqlite
+/database/
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos de IDE
+/.idea/
+/.vscode/
+*.iml
+
+# Target directories (Maven/Gradle)
+/target/
+/.settings/
+/.metadata/
+/bin/
