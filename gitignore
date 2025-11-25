@@ -22,7 +22,7 @@ logs/
 .DS_Store
 Thumbs.db
 
-# Archivos de configuración local - CORREGIDO
+# Archivos de configuración local 
 /src/DB/config/database.properties
 *.properties
 !*.properties.example
