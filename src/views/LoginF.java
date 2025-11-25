@@ -51,7 +51,7 @@ public class LoginF extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setForeground(new java.awt.Color(0, 153, 51));
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 102));
+        jPanel2.setBackground(new java.awt.Color(153, 255, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
         jLabel1.setText("BIENVENIDO");
@@ -91,6 +91,11 @@ public class LoginF extends javax.swing.JFrame {
         btnInicioSesion.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         btnInicioSesion.setText("INICIAR SESIÓN");
         btnInicioSesion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 204)));
+        btnInicioSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioSesionActionPerformed(evt);
+            }
+        });
 
         txtUsuario.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
         txtUsuario.setForeground(new java.awt.Color(51, 51, 51));
@@ -102,7 +107,11 @@ public class LoginF extends javax.swing.JFrame {
             }
         });
 
-        Password.setText("jPasswordField1");
+        Password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,6 +177,14 @@ public class LoginF extends javax.swing.JFrame {
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         IniciarSesion();
     }//GEN-LAST:event_txtUsuarioActionPerformed
+
+    private void PasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PasswordActionPerformed
+
+    private void btnInicioSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioSesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInicioSesionActionPerformed
 
     public static void main(String args[]) {
 

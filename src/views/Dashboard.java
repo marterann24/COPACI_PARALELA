@@ -29,7 +29,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btncerrarsesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,13 +41,28 @@ public class Dashboard extends javax.swing.JFrame {
         btnFaenas.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         btnFaenas.setForeground(new java.awt.Color(51, 255, 51));
         btnFaenas.setText("FAENAS");
+        btnFaenas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFaenasActionPerformed(evt);
+            }
+        });
 
         btnCooperaciones.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         btnCooperaciones.setForeground(new java.awt.Color(51, 255, 51));
         btnCooperaciones.setText("COOPERACIONES");
+        btnCooperaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCooperacionesActionPerformed(evt);
+            }
+        });
 
         btnRegistrarUsuario.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         btnRegistrarUsuario.setText("REGISTRAR USUARIO");
+        btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarUsuarioActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 204));
 
@@ -57,15 +72,15 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/imagenes/ADMINISTRADOR.png"))); // NOI18N
         jLabel3.setText("jLabel3");
 
-        jButton1.setText("Cerrar Sesión");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btncerrarsesion.setText("Cerrar Sesión");
+        btncerrarsesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                btncerrarsesionMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btncerrarsesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btncerrarsesionActionPerformed(evt);
             }
         });
 
@@ -82,7 +97,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGap(109, 109, 109)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btncerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -93,7 +108,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(89, 89, 89)
-                .addComponent(jButton1)
+                .addComponent(btncerrarsesion)
                 .addContainerGap(94, Short.MAX_VALUE))
         );
 
@@ -146,10 +161,10 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btncerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarsesionActionPerformed
+    }//GEN-LAST:event_btncerrarsesionActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void btncerrarsesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncerrarsesionMouseClicked
 
         javax.swing.SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(this,
@@ -159,7 +174,22 @@ public class Dashboard extends javax.swing.JFrame {
             login.setVisible(true);
             this.dispose();
         });
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btncerrarsesionMouseClicked
+
+    private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
+        new REGISTRO().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
+
+    private void btnFaenasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFaenasActionPerformed
+        new FAENAS().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnFaenasActionPerformed
+
+    private void btnCooperacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCooperacionesActionPerformed
+        new COOPERACIONES().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCooperacionesActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -173,7 +203,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnCooperaciones;
     private javax.swing.JButton btnFaenas;
     private javax.swing.JButton btnRegistrarUsuario;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btncerrarsesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
