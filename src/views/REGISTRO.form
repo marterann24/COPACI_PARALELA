@@ -32,7 +32,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -118,7 +118,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="btnAceptar" min="-2" pref="99" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="btnRegresar" min="-2" pref="98" max="-2" attributes="0"/>
+                                  <Component id="btnRegresar" min="-2" pref="113" max="-2" attributes="0"/>
                               </Group>
                               <Component id="txtCertificado" min="-2" pref="205" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
