@@ -4,13 +4,15 @@ import Model.Usuarios;
 import cjb.ci.Mensajes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import copaci_paralela.Mtd; 
+import copaci_paralela.Mtd;
 
 public class REGISTRO extends javax.swing.JFrame {
 
     /**
      * Creates new form REGISTRO
      */
+    private Usuarios user;
+
     public REGISTRO() {
         LocalDate fecha = LocalDate.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -334,47 +336,47 @@ public class REGISTRO extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (txtNombre.getText() == null) {
-            Mensajes.error(this,"ingrese nombre");
+            Mensajes.error(this, "ingrese nombre");
             return;
         }
         if (txtManzana.getText() == null) {
-            Mensajes.error(this,"Ingrese una manzana");
+            Mensajes.error(this, "Ingrese una manzana");
             return;
         }
         if (txtCertificado.getText() == null) {
-            Mensajes.error(this,"Ingrese un certificado");
+            Mensajes.error(this, "Ingrese un certificado");
             return;
         }
         if (txtDomicilio.getText() == null) {
-            Mensajes.error(this,"Ingrese domicilio");
+            Mensajes.error(this, "Ingrese domicilio");
             return;
         }
         if (txtFecha.getText() == null) {
-            Mensajes.error(this,"Ingrese fecha");
+            Mensajes.error(this, "Ingrese fecha");
             return;
         }
         if (txtLugarNac.getText() == null) {
-            Mensajes.error(this,"Ingrese lugar de nacimiento");
+            Mensajes.error(this, "Ingrese lugar de nacimiento");
             return;
         }
         if (txtOcupacion.getText() == null) {
-            Mensajes.error(this,"Ingrese ocupacion");
+            Mensajes.error(this, "Ingrese ocupacion");
             return;
         }
         if (txtTelefono.getText() == null) {
-            Mensajes.error(this,"Ingrese telefono");
+            Mensajes.error(this, "Ingrese telefono");
             return;
         }
         if (txtfechaAlta.getText() == null) {
-            Mensajes.error(this,"Ingrese la fecha de alta");
+            Mensajes.error(this, "Ingrese la fecha de alta");
             return;
         }
         if (grupoExtemporaneo.getSelection() == null) {
-            Mensajes.error(this,"Elija si es expemporaneo");
+            Mensajes.error(this, "Elija si es expemporaneo");
             return;
         }
         if (grupoOriginario.getSelection() == null) {
-            Mensajes.error(this,"Elija si es originario");
+            Mensajes.error(this, "Elija si es originario");
             return;
         }
 
@@ -384,17 +386,24 @@ public class REGISTRO extends javax.swing.JFrame {
         if (btnExtemporaneo.isSelected()) {
             long meses = Mtd.calcularMesesDesdeMayoriaEdad(txtFecha.getText());
             if (meses <= 0) {
-                Mensajes.error(this,"No debe nada");
+                Mensajes.error(this, "No debe nada");
             } else {
                 deudaFaen = 200 * meses;
                 double anio = meses / 12;
                 deudaCoop = 1800 * anio;
-                Mensajes.error(this,"Deuda en faena: $" + deudaFaen+"\nDeuda en cooperaciones: $" + deudaCoop);
+                Mensajes.error(this, "Deuda en faena: $" + deudaFaen + "\nDeuda en cooperaciones: $" + deudaCoop);
             }
         }
-        
-        Usuarios newUser = new Usuarios();
-        
+
+        try {
+            Usuarios newUser = new Usuarios(txtNombre.getText(),txtManzana.getText(),txtFecha.getText(),txtLugarNac.getText(),txtDomicilio.getText(),txtOcupacion.getText(),txtTelefono.getText(),,txtCertificado.getText(), txtfechaAlta.getText(),grupoExtemporaneo.getSelection(),grupoOriginario.getSelection(),true);
+            user.createUser(user);
+        } catch (Exception e) {
+            String message = e.getMessage();
+            System.out.println(message);
+        }
+
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
