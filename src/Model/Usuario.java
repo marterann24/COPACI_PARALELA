@@ -26,7 +26,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int id, String cve, String nombre, String manzana,
+    public Usuario(int id, String nombre, String manzana,
                    LocalDate fechaNacimiento, String lugarNacimiento,
                    String domicilio, char estadoCivil, String ocupacion,
                    String telefono, String maxEstudios, String certificado,
@@ -34,7 +34,6 @@ public class Usuario {
                    boolean esOriginario, LocalDateTime fechaRegistro,
                    boolean activo) {
         this.id = id;
-        this.cve = cve;
         this.nombre = nombre;
         this.manzana = manzana;
         this.fechaNacimiento = fechaNacimiento;
@@ -60,14 +59,6 @@ public class Usuario {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCve() {
-        return cve;
-    }
-
-    public void setCve(String cve) {
-        this.cve = cve;
     }
 
     public String getNombre() {
