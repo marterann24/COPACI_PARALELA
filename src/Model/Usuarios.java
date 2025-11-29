@@ -8,6 +8,7 @@ import DB.DataBaseConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class Usuarios {
 
-    private Integer id;
-
+    private Integer id = 0;
 
     private String nombre;
 
@@ -59,8 +59,8 @@ public class Usuarios {
 
     }
 
-    public Usuarios(Integer id, String nombre, String manzana, Date fechaNacimiento, String lugarNacimiento, String domicilio, String estadoCivil, String ocupacion, String telefono, String maxEstudios, String certificado, Date fechaAlta, boolean esExtemporaneo, boolean esOriginario, Double faenasPago, Double cooperacionesPago, Double cooperacionesDeuda, Date fechaRegistro, boolean activo) {
-        this.id = id;
+    public Usuarios(String nombre, String manzana, String lugarNacimiento, String domicilio, String estadoCivil, String ocupacion, String telefono, String maxEstudios, String certificado, ButtonModel selection, ButtonModel fechaAlta, boolean esExtemporaneo) {
+        this.id = id + 1;
         this.nombre = nombre;
         this.manzana = manzana;
         this.fechaNacimiento = fechaNacimiento;
@@ -74,10 +74,6 @@ public class Usuarios {
         this.fechaAlta = fechaAlta;
         this.esExtemporaneo = esExtemporaneo;
         this.esOriginario = esOriginario;
-        this.faenasPago = faenasPago;
-        this.cooperacionesPago = cooperacionesPago;
-        this.cooperacionesDeuda = cooperacionesDeuda;
-        this.fechaRegistro = fechaRegistro;
         this.activo = activo;
     }
 
@@ -236,7 +232,7 @@ public class Usuarios {
     public Boolean createUser(Usuarios usuario) {
         String sql = """
         INSERT INTO socio (
-            cve, nombre, manzana, fecha_nacimiento, lugar_nacimiento,
+            nombre, manzana, fecha_nacimiento, lugar_nacimiento,
             domicilio, estado_civil, ocupacion, telefono, max_estudios,
             certificado, fecha_alta, es_extemporaneo, es_originario,
             faenas_pago, cooperaciones_pago, cooperaciones_deuda,
@@ -244,9 +240,8 @@ public class Usuarios {
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
 
-        try (Connection conexion = new DataBaseConnection().getConnection(); PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+        try (Connection conexion = new DataBaseConnection().getConnection(); java.sql.PreparedStatement pstmt = conexion.prepareStatement(sql)) {
 
-            pstmt.setString(1, usuario.getCve());
             pstmt.setString(2, usuario.getNombre());
             pstmt.setString(3, usuario.getManzana());
 
