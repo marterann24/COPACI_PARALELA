@@ -1,6 +1,6 @@
 package views;
 
-import Model.Usuarios;
+import Model.Usuario;
 import cjb.ci.Mensajes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,7 @@ public class REGISTRO extends javax.swing.JFrame {
     /**
      * Creates new form REGISTRO
      */
-    private Usuarios user;
+    private Usuario user;
 
     public REGISTRO() {
         LocalDate fecha = LocalDate.now();
@@ -393,14 +393,6 @@ public class REGISTRO extends javax.swing.JFrame {
                 deudaCoop = 1800 * anio;
                 Mensajes.error(this, "Deuda en faena: $" + deudaFaen + "\nDeuda en cooperaciones: $" + deudaCoop);
             }
-        }
-
-        try {
-            Usuarios newUser = new Usuarios(txtNombre.getText(),txtManzana.getText(),txtFecha.getText(),txtLugarNac.getText(),txtDomicilio.getText(),txtOcupacion.getText(),txtTelefono.getText(),,txtCertificado.getText(), txtfechaAlta.getText(),grupoExtemporaneo.getSelection(),grupoOriginario.getSelection(),true);
-            user.createUser(user);
-        } catch (Exception e) {
-            String message = e.getMessage();
-            System.out.println(message);
         }
 
 
