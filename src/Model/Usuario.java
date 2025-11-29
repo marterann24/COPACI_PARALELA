@@ -1,66 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-import DB.DataBaseConnection;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Date;
-import javax.swing.ButtonModel;
-import javax.swing.JOptionPane;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-/**
- *
- * @author marit
- */
-public class Usuarios {
+public class Usuario {
 
-    private Integer id = 0;
-
+    private int id;
     private String nombre;
-
     private String manzana;
-
-    private Date fechaNacimiento;
-
+    private LocalDate fechaNacimiento;
     private String lugarNacimiento;
-
     private String domicilio;
-
-    private String estadoCivil;
-
+    private char estadoCivil;
     private String ocupacion;
-
     private String telefono;
-
     private String maxEstudios;
-
     private String certificado;
-
-    private Date fechaAlta;
-
+    private LocalDate fechaAlta;
     private boolean esExtemporaneo;
-
     private boolean esOriginario;
-
-    private Double faenasPago;
-
-    private Double cooperacionesPago;
-
-    private Double cooperacionesDeuda;
-
-    private Date fechaRegistro;
-
+    private LocalDateTime fechaRegistro;
     private boolean activo;
 
-    public Usuarios() {
-
+    public Usuario() {
     }
 
-    public Usuarios(String nombre, String manzana, String lugarNacimiento, String domicilio, String estadoCivil, String ocupacion, String telefono, String maxEstudios, String certificado, ButtonModel selection, ButtonModel fechaAlta, boolean esExtemporaneo) {
-        this.id = id + 1;
+    public Usuario(int id, String nombre, String manzana,
+                   LocalDate fechaNacimiento, String lugarNacimiento,
+                   String domicilio, char estadoCivil, String ocupacion,
+                   String telefono, String maxEstudios, String certificado,
+                   LocalDate fechaAlta, boolean esExtemporaneo,
+                   boolean esOriginario, LocalDateTime fechaRegistro,
+                   boolean activo) {
+        this.id = id;
         this.nombre = nombre;
         this.manzana = manzana;
         this.fechaNacimiento = fechaNacimiento;
@@ -71,17 +43,20 @@ public class Usuarios {
         this.telefono = telefono;
         this.maxEstudios = maxEstudios;
         this.certificado = certificado;
-        //this.fechaAlta = fechaAlta;
+        this.fechaAlta = fechaAlta;
         this.esExtemporaneo = esExtemporaneo;
         this.esOriginario = esOriginario;
+        this.fechaRegistro = fechaRegistro;
         this.activo = activo;
     }
 
-    public Integer getId() {
+    // Getters y setters
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -101,11 +76,11 @@ public class Usuarios {
         this.manzana = manzana;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -125,11 +100,11 @@ public class Usuarios {
         this.domicilio = domicilio;
     }
 
-    public String getEstadoCivil() {
+    public char getEstadoCivil() {
         return estadoCivil;
     }
 
-    public void setEstadoCivil(String estadoCivil) {
+    public void setEstadoCivil(char estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
 
@@ -165,11 +140,11 @@ public class Usuarios {
         this.certificado = certificado;
     }
 
-    public Date getFechaAlta() {
+    public LocalDate getFechaAlta() {
         return fechaAlta;
     }
 
-    public void setFechaAlta(Date fechaAlta) {
+    public void setFechaAlta(LocalDate fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
@@ -189,35 +164,11 @@ public class Usuarios {
         this.esOriginario = esOriginario;
     }
 
-    public Double getFaenasPago() {
-        return faenasPago;
-    }
-
-    public void setFaenasPago(Double faenasPago) {
-        this.faenasPago = faenasPago;
-    }
-
-    public Double getCooperacionesPago() {
-        return cooperacionesPago;
-    }
-
-    public void setCooperacionesPago(Double cooperacionesPago) {
-        this.cooperacionesPago = cooperacionesPago;
-    }
-
-    public Double getCooperacionesDeuda() {
-        return cooperacionesDeuda;
-    }
-
-    public void setCooperacionesDeuda(Double cooperacionesDeuda) {
-        this.cooperacionesDeuda = cooperacionesDeuda;
-    }
-
-    public Date getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -229,61 +180,25 @@ public class Usuarios {
         this.activo = activo;
     }
 
-    public Boolean createUser(Usuarios usuario) {
-        String sql = """
-        INSERT INTO socio (
-            nombre, manzana, fecha_nacimiento, lugar_nacimiento,
-            domicilio, estado_civil, ocupacion, telefono, max_estudios,
-            certificado, fecha_alta, es_extemporaneo, es_originario,
-            faenas_pago, cooperaciones_pago, cooperaciones_deuda,
-            fecha_registro, activo
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """;
-
-        try (Connection conexion = new DataBaseConnection().getConnection(); java.sql.PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
-            pstmt.setString(2, usuario.getNombre());
-            pstmt.setString(3, usuario.getManzana());
-
-            // Fecha de nacimiento (java.util.Date → java.sql.Date)
-            pstmt.setDate(4, usuario.getFechaNacimiento() != null
-                    ? new java.sql.Date(usuario.getFechaNacimiento().getTime()) : null);
-
-            pstmt.setString(5, usuario.getLugarNacimiento());
-            pstmt.setString(6, usuario.getDomicilio());
-            pstmt.setString(7, usuario.getEstadoCivil());
-            pstmt.setString(8, usuario.getOcupacion());
-            pstmt.setString(9, usuario.getTelefono());
-            pstmt.setString(10, usuario.getMaxEstudios());
-            pstmt.setString(11, usuario.getCertificado());
-
-            // Fecha alta
-            pstmt.setDate(12, usuario.getFechaAlta() != null
-                    ? new java.sql.Date(usuario.getFechaAlta().getTime()) : null);
-
-            pstmt.setBoolean(13, usuario.isEsExtemporaneo());
-            pstmt.setBoolean(14, usuario.isEsOriginario());
-
-            pstmt.setDouble(15, usuario.getFaenasPago() != null ? usuario.getFaenasPago() : 0.0);
-            pstmt.setDouble(16, usuario.getCooperacionesPago() != null ? usuario.getCooperacionesPago() : 0.0);
-            pstmt.setDouble(17, usuario.getCooperacionesDeuda() != null ? usuario.getCooperacionesDeuda() : 0.0);
-
-            // Fecha registro (ahora)
-            pstmt.setTimestamp(18, new java.sql.Timestamp(new Date().getTime()));
-
-            pstmt.setBoolean(19, usuario.isActivo());
-
-            int filasInsertadas = pstmt.executeUpdate();
-            return filasInsertadas > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null,
-                    "Error al registrar el socio: " + e.getMessage(),
-                    "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", manzana='" + manzana + '\'' +
+                ", fechaNacimiento=" + fechaNacimiento +
+                ", lugarNacimiento='" + lugarNacimiento + '\'' +
+                ", domicilio='" + domicilio + '\'' +
+                ", estadoCivil=" + estadoCivil +
+                ", ocupacion='" + ocupacion + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", maxEstudios='" + maxEstudios + '\'' +
+                ", certificado='" + certificado + '\'' +
+                ", fechaAlta=" + fechaAlta +
+                ", esExtemporaneo=" + esExtemporaneo +
+                ", esOriginario=" + esOriginario +
+                ", fechaRegistro=" + fechaRegistro +
+                ", activo=" + activo +
+                '}';
     }
-
 }
