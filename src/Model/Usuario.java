@@ -71,7 +71,7 @@ public class Usuarios {
         this.telefono = telefono;
         this.maxEstudios = maxEstudios;
         this.certificado = certificado;
-        this.fechaAlta = fechaAlta;
+        //this.fechaAlta = fechaAlta;
         this.esExtemporaneo = esExtemporaneo;
         this.esOriginario = esOriginario;
         this.activo = activo;
