@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 public class Usuario {
 
     private int id;
-    private String cve;
     private String nombre;
     private String manzana;
     private LocalDate fechaNacimiento;
@@ -185,7 +184,6 @@ public class Usuario {
     public String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", cve='" + cve + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", manzana='" + manzana + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
