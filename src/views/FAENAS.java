@@ -1,7 +1,18 @@
 package views;
 
 import cjb.ci.Mensajes;
-import copaci_paralela.Mtd; 
+import copaci_paralela.Mtd;
+import Model.Usuario;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Date;
+
+import javax.swing.SwingUtilities;
+import java.time.format.DateTimeFormatter;
+import DB.DataBaseConnection;
 
 public class FAENAS extends javax.swing.JFrame {
 
@@ -9,9 +20,8 @@ public class FAENAS extends javax.swing.JFrame {
         initComponents();
     }
 
-
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
@@ -231,25 +241,89 @@ public class FAENAS extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new Dashboard().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnRegresarActionPerformed
-
+    }
+    //busqueda de usuario
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //busqueda de usuario 
-         String s="";
-        if (s==null)
-        {
-            Mensajes.error(this, "No se encontro el usuario");
-        } else
-        {
-            //Obtener el monto pagado en faenas del usuario
-            Double pagado=0.0;
-            String fecha = "06/10/2025";
-            tablaPagos=Mtd.generarTabla(fecha, pagado);
+        String folioText = txtfolio.getText().trim();
+
+        if (folioText.isEmpty()) {
+            Mensajes.error(this, "Ingrese el folio");
+            return;
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+        int folio;
+        try {
+            folio = Integer.parseInt(folioText);
+        } catch (NumberFormatException e) {
+            Mensajes.error(this, "El folio debe ser un número");
+            return;
+        }
+
+        jButton1.setEnabled(false);
+
+        new Thread(() -> {
+            Usuario u = buscarUsuarioPorFolio(folio);
+
+            SwingUtilities.invokeLater(() -> {
+                jButton1.setEnabled(true);
+
+                if (u == null) {
+                    Mensajes.error(this, "No se encontró usuario con folio " + folio);
+                    txtaño.setText("");
+                    jTextField1.setText("");
+                    return;
+                }
+
+                // Año de nacimiento
+                if (u.getFechaNacimiento() != null) {
+                    txtaño.setText(String.valueOf(u.getFechaNacimiento().getYear()));
+
+                    String fechaTexto = u.getFechaNacimiento()
+                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                    Double pagado = 0.0; // para traerlo despues de la bd
+                    tablaPagos = Mtd.generarTabla(fechaTexto, pagado);
+                } else {
+                    txtaño.setText("");
+                    Mensajes.error(this, "El usuario no tiene registrada fecha de nacimiento");
+                }
+            });
+        }).start();
+    }
+
+    //metodo para buscar al usuario
+    private Usuario buscarUsuarioPorFolio(int folio) {
+        String sql = "SELECT id, nombre, fecha_nacimiento FROM usuarios WHERE id = ?";
+
+        try (Connection con = new DataBaseConnection().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, folio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Usuario u = new Usuario();
+                    u.setId(rs.getInt("id"));
+                    u.setNombre(rs.getString("nombre"));
+
+                    Date fechaNac = rs.getDate("fecha_nacimiento");
+                    if (fechaNac != null) {
+                        u.setFechaNacimiento(fechaNac.toLocalDate());
+                    }
+                    return u;
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Mensajes.error(this, "Error al buscar usuario: " + e.getMessage());
+            return null;
+        }
+    }
+
 
     public static void main(String args[]) {
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FAENAS().setVisible(true);
