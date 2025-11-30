@@ -25,12 +25,21 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int id, String nombre, String manzana,
-                   LocalDate fechaNacimiento, String lugarNacimiento,
-                   String domicilio, char estadoCivil, String ocupacion,
-                   String telefono, String maxEstudios, String certificado,
-                   LocalDate fechaAlta, boolean esExtemporaneo,
-                   boolean esOriginario, LocalDateTime fechaRegistro,
+    public Usuario(int id,
+                   String nombre,
+                   String manzana,
+                   LocalDate fechaNacimiento,
+                   String lugarNacimiento,
+                   String domicilio,
+                   char estadoCivil,
+                   String ocupacion,
+                   String telefono,
+                   String maxEstudios,
+                   String certificado,
+                   LocalDate fechaAlta,
+                   boolean esExtemporaneo,
+                   boolean esOriginario,
+                   LocalDateTime fechaRegistro,
                    boolean activo) {
         this.id = id;
         this.nombre = nombre;
