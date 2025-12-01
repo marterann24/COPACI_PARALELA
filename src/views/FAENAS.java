@@ -13,6 +13,9 @@ import java.sql.Date;
 import javax.swing.SwingUtilities;
 import java.time.format.DateTimeFormatter;
 import DB.DataBaseConnection;
+import cjb.ci.CtrlInterfaz;
+import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 public class FAENAS extends javax.swing.JFrame {
 
@@ -151,22 +154,22 @@ public class FAENAS extends javax.swing.JFrame {
         );
 
         tablaPagos.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null}
+                new Object[][]{
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null},
+                    {null, null}
                 },
-                new String [] {
-                        "MES", "AÑO"
+                new String[]{
+                    "MES", "AÑO"
                 }
         ));
         tablaPagos.setEnabled(false);
@@ -246,12 +249,13 @@ public class FAENAS extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {
         new Dashboard().setVisible(true);
         this.dispose();
     }
+
     // Buscar usuario por folio
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         String folioText = txtfolio.getText().trim();
 
         if (folioText.isEmpty()) {
@@ -301,14 +305,61 @@ public class FAENAS extends javax.swing.JFrame {
                 }
             });
         }).start();
+
+        DefaultTableModel modelo = (DefaultTableModel) tablaPagos.getModel();
+        // Eliminar todas las filas mientras existan
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0); // Siempre se elimina la primera fila hasta que la tabla esté vacía [9]
+        }
+        // Refresca la tabla
+        tablaPagos.revalidate();
+        tablaPagos.repaint();
+        //Buscar el usuario a partir de la clave
+        String s = "user";
+        if (s == null) {
+            Mensajes.error(this, "No se enocntro el usuario");
+            CtrlInterfaz.limpia(txtTotal, jTextField1, txtaño, txtfolio);
+            CtrlInterfaz.habilita(false, btngenerar);
+            return;
+        } else {
+            CtrlInterfaz.habilita(true, btngenerar);
+            //Obtener el monto pagado en faenas del usuario y PONER EL EL LABEL
+            Double pagado = Double.parseDouble(jTextField1.getText());
+            String fecha = txtaño.getText();
+
+            String anios18 = Mtd.fechaMayoriaEdad(fecha);
+            int meses = Mtd.mesesTranscurridos(anios18);
+            if (meses == 0) {
+                Mensajes.exito(this, "El usuario aun no tiene que pagar");
+            } else {
+                String[] arregloMeses = Mtd.generarMesesTranscurridos(anios18);
+                for (int i = 0; i < meses; i++) {
+                    Object data[] = new Object[3];
+                    String[] partes = arregloMeses[i].split(" ");
+                    data[0] = partes[0];
+                    data[1] = partes[1];
+                    pagado = pagado - 100;
+                    if (pagado / (i + 1 * 100) >= 0) {
+                        data[2] = Color.GREEN;
+                    } else {
+                        data[2] = Color.RED;
+
+                    }
+                    tablaPagos.getColumnModel().getColumn(2).setCellRenderer(new ColorCellRenderer());
+                    modelo.addRow(data);
+                }
+            }
+            // Refresca la tabla
+            tablaPagos.revalidate();
+            tablaPagos.repaint();
+        }
     }
 
     // Buscar usuario
     private Usuario buscarUsuarioPorFolio(int folio) {
         String sql = "SELECT id, nombre, fecha_nacimiento FROM usuarios WHERE id = ?";
 
-        try (Connection con = new DataBaseConnection().getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new DataBaseConnection().getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, folio);
 
