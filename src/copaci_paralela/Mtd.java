@@ -2,9 +2,13 @@ package copaci_paralela;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.regex.Pattern;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -199,5 +203,141 @@ public class Mtd
         System.out.println("Meses con X: " + Math.min(mesesPagados, contadorMeses));
         
         return tabla;
+    }
+    
+    public static String[] nombresMeses =
+    {
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    };
+
+    /**
+     * Calcula el número de meses transcurridos desde una fecha dada hasta la
+     * fecha actual.
+     *
+     * @param fechaStr Cadena en formato dd/MM/yyyy (ej. "15/03/2020")
+     * @return Número de meses (0 si la fecha es futura o inválida)
+     */
+    public static int mesesTranscurridos(String fechaStr)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaActual = LocalDate.now(); // Fecha simulada; en producción: LocalDate.now()
+
+        try
+        {
+            LocalDate fechaInicio = LocalDate.parse(fechaStr, formatter);
+
+            if (fechaInicio.isAfter(fechaActual))
+            {
+                return 0; // Si es futura, no hay meses pasados
+            }
+
+            long meses = ChronoUnit.MONTHS.between(fechaInicio, fechaActual);
+            return (int) meses;
+
+        } catch (DateTimeParseException e)
+        {
+            System.err.println("Formato de fecha inválido: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Calcula la fecha en que se cumple la mayoría de edad (18 años) a partir
+     * de la fecha de nacimiento.
+     *
+     * @param fechaNacimiento Cadena en formato dd/MM/yyyy (ej. "15/03/2007")
+     * @return Fecha de mayoría de edad en formato dd/MM/yyyy
+     * @throws DateTimeParseException si el formato de fecha es inválido
+     */
+    public static String fechaMayoriaEdad(String fechaNacimiento)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try
+        {
+            LocalDate nacimiento = LocalDate.parse(fechaNacimiento, formatter);
+            LocalDate mayoria = nacimiento.plusYears(18);
+            return mayoria.format(formatter);
+
+        } catch (DateTimeParseException e)
+        {
+            throw new DateTimeParseException("Formato de fecha inválido: se espera dd/MM/yyyy", fechaNacimiento, e.getErrorIndex());
+        }
+    }
+
+    /**
+     * Genera array de meses transcurridos (solo meses).
+     */
+    public static String[] generarMesesTranscurridos(String fechaMayoriaStr)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaActual = LocalDate.now();  // Fecha simulada
+        try
+        {
+            LocalDate fechaMayoria = LocalDate.parse(fechaMayoriaStr, formatter);
+            if (fechaMayoria.isAfter(fechaActual))
+            {
+                return new String[0];  // Vacío si futura
+            }
+            ArrayList<String> mesesList = new ArrayList<String>();
+            YearMonth inicio = YearMonth.from(fechaMayoria);
+            YearMonth actualYM = YearMonth.from(fechaActual);
+            for (YearMonth ym = inicio; !ym.isAfter(actualYM); ym = ym.plusMonths(1))
+            {
+                int mesIndex = ym.getMonthValue() - 1;
+                String mesStr = nombresMeses[mesIndex] + " " + ym.getYear();
+                mesesList.add(mesStr);
+            }
+            return mesesList.toArray(new String[mesesList.size()]);
+        } catch (DateTimeParseException e)
+        {
+            throw new DateTimeParseException("Formato de fecha inválido: se espera dd/MM/yyyy", fechaMayoriaStr, e.getErrorIndex());
+        }
+    }
+
+    /**
+     * Genera array de años únicos transcurridos (solo años).
+     */
+    public static String[] generarAñosTranscurridos(String fechaMayoriaStr)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaActual = LocalDate.now();  // Fecha simulada
+
+        try
+        {
+            LocalDate fechaMayoria = LocalDate.parse(fechaMayoriaStr, formatter);
+
+            if (fechaMayoria.isAfter(fechaActual))
+            {
+                return new String[0];  // Vacío si futura
+            }
+
+            // Usar HashSet explícitamente (NO Set)
+            HashSet<Integer> añosSet = new HashSet<Integer>();
+
+            YearMonth inicio = YearMonth.from(fechaMayoria);
+            YearMonth actualYM = YearMonth.from(fechaActual);
+
+            for (YearMonth ym = inicio; !ym.isAfter(actualYM); ym = ym.plusMonths(1))
+            {
+                añosSet.add(ym.getYear());
+            }
+
+            // Convertir a array ordenado
+            Integer[] añosArray = añosSet.toArray(new Integer[añosSet.size()]);
+            Arrays.sort(añosArray);
+            String[] años = new String[añosArray.length];
+            for (int i = 0; i < añosArray.length; i++)
+            {
+                años[i] = String.valueOf(añosArray[i]);
+            }
+
+            return años;
+
+        } catch (DateTimeParseException e)
+        {
+            throw new DateTimeParseException("Formato de fecha inválido: se espera dd/MM/yyyy", fechaMayoriaStr, e.getErrorIndex());
+        }
     }
 }
